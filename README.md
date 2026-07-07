@@ -129,9 +129,7 @@ by a newly added left-hand spacer, so the parent of `(p1, p2, …, pL)` is `(p2,
 (drop the newest spacer); the empty array is the common ancestor. For each array
 passing `--threshold`, all of its suffixes are added as nodes so the tree stays fully
 nested even when an intermediate array was not directly observed (inferred nodes have
-zero population). Bands are stacked with each genotype bracketing its descendants
-(the ggmuller/pymuller nesting convention, reimplemented here so the script depends
-only on pandas/numpy/matplotlib/seaborn).
+zero population). Bands are stacked with each genotype bracketing its descendants.
 
 Options: `--threshold` (abundance cutoff, default 0.1%), `--palette` (any seaborn
 palette), `--smoothing` (gaussian std along the time axis; default 1, increase for
@@ -156,3 +154,11 @@ abundance instead of normalizing each day to 1), `--day0-label`.
 10 samples (day 0, 1, 10, 20, 30, 40, 50, 60, 80, 100), replicate 4;
 **82,350** unique CRISPR arrays across the series. The unexpanded (ancestor)
 fraction declines from 0.95 at day 0 to ~0.01 by day 100 as recorded lineages expand.
+
+## Note
+
+This demo uses a reduced set of time points (10 samples from a single replicate)
+and therefore has a **lower temporal resolution than the analysis reported in the
+paper**, which was based on a much denser time series. The demo is intended to make
+the pipeline runnable end-to-end and to reproduce the analysis workflow; the
+resulting lineage trajectories are correspondingly coarser than the published figures.
