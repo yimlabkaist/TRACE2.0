@@ -4,8 +4,8 @@ Code and materials from paper **"Directed evolution of CRISPR-Cas spacer acquisi
 machinery enables noninvasive biological recording and lineage tracing in the
 mammalian gut"** Yim and Jang et al., *Nature Chemical Biology* [In revision].
 
-The full paper and supplementary information can be accessed [here](URL_TO_PAPER).
-Raw sequencing data can be found at NCBI SRA under [XXXXXXXXXXX](URL_TO_SRA).
+<p> The full paper and supplementary information can be accessed [here](URL_TO_PAPER). </p>
+<p> Raw sequencing data can be found at NCBI SRA under [XXXXXXXXXXX](URL_TO_SRA). </p>
 
 ---
 
