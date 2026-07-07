@@ -9,10 +9,9 @@ mammalian gut"** Yim and Jang et al., *Nature Chemical Biology* [In revision].
 
 ---
 
-This repository provides the exact analysis code for extracting unique CRISPR arrays
+This repository provides the analysis code for extracting unique CRISPR arrays
 from per-sample spacer-mapping files and building count / frequency / absolute-abundance
-matrices across a time series, together with a runnable demo dataset and its outputs
-(reviewer comment R1.20).
+matrices across a time series, together with a runnable demo dataset and its outputs.
 
 ## Dependencies
 
