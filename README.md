@@ -19,19 +19,22 @@ matrices across a time series, together with a runnable demo dataset and its out
 - Python ≥ 3.8
 - [pandas](https://pandas.pydata.org/)
 - [numpy](https://numpy.org/)
+- [matplotlib](https://matplotlib.org/) and [seaborn](https://seaborn.pydata.org/) *(Muller plot only)*
 
 ```bash
-pip install pandas numpy
+pip install pandas numpy matplotlib seaborn
 ```
 
-No other third-party packages are required.
+`crispr_array_count_matrix.py` needs only pandas + numpy; `plot_muller.py` additionally
+uses matplotlib + seaborn. No other third-party packages are required.
 
 ## Contents
 
 ```
-TRACE_crispr_array_demo/
+lineage_tracing_demo/
 ├── code/
-│   └── crispr_array_count_matrix.py     # the analysis script (pandas + numpy only)
+│   ├── crispr_array_count_matrix.py     # unique-array extraction + count matrices (pandas + numpy)
+│   └── plot_muller.py                   # Muller plot of recorded lineages (matplotlib + seaborn)
 ├── demo_data/
 │   ├── Ec257-beforegavage_uniq.txt      # day 0 (pre-gavage inoculum)
 │   ├── Ec257-day1-rep4_uniq.txt
@@ -49,6 +52,7 @@ TRACE_crispr_array_demo/
     ├── unique_arrays_normfreq.csv
     ├── unique_arrays_absfreq.csv
     ├── unique_arrays_long.csv
+    ├── muller_plot.png                  # Muller plot from plot_muller.py
     └── per_sample/<sample>_arrays.csv
 ```
 
@@ -78,7 +82,7 @@ column = the fraction of the total cell population that is array-bearing in that
 ## How to run
 
 ```bash
-cd TRACE_crispr_array_demo
+cd lineage_tracing_demo
 python3 code/crispr_array_count_matrix.py \
     --input demo_data \
     --outdir results \
@@ -106,6 +110,34 @@ Requirements: Python ≥ 3.8, `pandas`, `numpy`.
    over the whole population — ready for genealogy / Muller-plot reconstruction.
 5. `unique_arrays_long.csv` — tidy long table with `array_id, p1…pN, sample, count,
    frequency, abs_frequency, day`.
+
+## Muller plot (`plot_muller.py`)
+
+Visualizes the recorded lineage dynamics over time from `unique_arrays_absfreq.csv`.
+
+```bash
+python3 code/plot_muller.py \
+    --absfreq results/unique_arrays_absfreq.csv \
+    --out results/muller_plot.png \
+    --threshold 0.001 \
+    --palette cubehelix_r
+```
+
+**Genealogy.** Spacers accumulate in reverse column order: `p1` is the **newest**
+spacer (added at the left) and the right-most spacer is the **oldest**. Daughter
+arrays therefore share their right-hand (suffix) spacers with the parent and differ
+by a newly added left-hand spacer, so the parent of `(p1, p2, …, pL)` is `(p2, …, pL)`
+(drop the newest spacer); the empty array is the common ancestor. For each array
+passing `--threshold`, all of its suffixes are added as nodes so the tree stays fully
+nested even when an intermediate array was not directly observed (inferred nodes have
+zero population). Bands are stacked with each genotype bracketing its descendants
+(the ggmuller/pymuller nesting convention, reimplemented here so the script depends
+only on pandas/numpy/matplotlib/seaborn).
+
+Options: `--threshold` (abundance cutoff, default 0.1%), `--palette` (any seaborn
+palette), `--smoothing` (gaussian std along the time axis; default 1, increase for
+smoother band boundaries e.g. 2, 0 = none), `--no-normalize` (show absolute
+abundance instead of normalizing each day to 1), `--day0-label`.
 
 ## Options
 
