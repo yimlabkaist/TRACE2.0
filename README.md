@@ -162,3 +162,30 @@ and therefore has a **lower temporal resolution than the analysis reported in th
 paper**, which was based on a much denser time series. The demo is intended to make
 the pipeline runnable end-to-end and to reproduce the analysis workflow; the
 resulting lineage trajectories are correspondingly coarser than the published figures.
+
+## Paper data (`paper_data/`)
+
+Processed data underlying the lineage-tracing analysis in the paper. Raw sequencing
+reads are deposited at NCBI SRA ([XXXXXXXXXXX](URL_TO_SRA)); this folder provides the
+**unique CRISPR-array count tables** (per replicate) and the **Muller plots** derived
+from them.
+
+```
+paper_data/
+├── counts/
+│   ├── rep1/ … rep4/
+│   │   ├── unique_arrays_counts.csv.gz     array x sample raw read counts
+│   │   ├── unique_arrays_normfreq.csv.gz   frequency within the array-bearing population
+│   │   └── unique_arrays_absfreq.csv.gz    absolute abundance in the total cell population
+│   │                                       (row array_id 0 = unexpanded ancestor)
+└── figures/
+    └── rep<N>_muller.png                    Muller plot of recorded lineages per replicate
+```
+
+Tables were generated with `lineage_tracing_demo/code/crispr_array_count_matrix.py`
+(`--add-ancestor --no-long --gzip`) and Muller plots with
+`lineage_tracing_demo/code/plot_muller.py` (`--threshold 0.001 --palette cubehelix_r
+--smoothing 2`). Matrix rows are unique arrays defined by ordered spacer columns
+`p1..pN` (`p1` = newest spacer, right-most = oldest); sample columns run day 0 → 100.
+Unlike the low-resolution `lineage_tracing_demo`, these tables use the full,
+densely-sampled time series analyzed in the paper.
